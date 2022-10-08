@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CharacterRedactor_
 {
-    internal class CharacterSkills
+    public class CharacterSkills
     {
         public CharacterSkills(string skillName)
         {

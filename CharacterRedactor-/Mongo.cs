@@ -55,8 +55,8 @@ namespace CharacterCreator
             var client = new MongoClient();
             var database = client.GetDatabase("CharactersBase");
             var collection = database.GetCollection<Character>("Character");
-            //var update = Builders<Character>.Update.Set("Inventory", character.Inventory);
-            //collection.UpdateOne(x => x.Name == name, update);
+            var update = Builders<Character>.Update.Set("Inventory", character.Inventory);
+            collection.UpdateOne(x => x.Name == name, update);
         }
     }
 }

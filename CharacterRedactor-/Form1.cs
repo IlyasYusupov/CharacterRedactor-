@@ -1,5 +1,6 @@
 using CharacterCreator;
 using CharacterRedactor;
+using MongoDB.Driver;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using Button = System.Windows.Forms.Button;
@@ -234,11 +235,30 @@ namespace CharacterRedactor_
 
         private void btnCreat_Click(object sender, EventArgs e)
         {
+            var client = new MongoClient();
+            var database = client.GetDatabase("CharactersBase");
+            var collection = database.GetCollection<Character>("Character");
+            var list = collection.Find(x => true).ToList();
+            foreach (var item in list)
+            {
+                if (item.Name == tbName.Text)
+                {
+                    MessageBox.Show("Такой ник уже есть!", "warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+            }
             if (cbCharacter.SelectedIndex != null)
             {
                 string[] characterParams = ColectingParams();
                 character = maker.Make(cbCharacter.Text, characterParams);
-                cbExistingCharacter.Items.Add(tbName.Text);
+                
+                if (character != null)
+                {
+                    cbExistingCharacter.Items.Add(tbName.Text);
+                    Mongo.AddToDB(character);
+                }  
+                else
+                    return;
             }
             TextboxClear();
             SkillsRefresh();
@@ -321,9 +341,12 @@ namespace CharacterRedactor_
         {
             if (cbCharacter.SelectedItem != null && cbExistingCharacter.SelectedItem != null)
             {
-                Character character = maker.Make(cbCharacter.Text, ColectingParams());
-                Mongo.Replace(cbExistingCharacter.Text, character);
-                Mongo.FindAll(cbExistingCharacter);
+                character = maker.Make(cbCharacter.Text, ColectingParams());
+                if(character != null)
+                {
+                    Mongo.Replace(cbExistingCharacter.Text, character);
+                    Mongo.FindAll(cbExistingCharacter);
+                }
                 TextboxClear();
                 SkillsRefresh();
             }
@@ -432,9 +455,8 @@ namespace CharacterRedactor_
         private void btnAddItem_Click(object sender, EventArgs e)
         {
             Form2 newForm = new Form2();
-            newForm.CharacterName = this.cbExistingCharacter.Text;
+            newForm.character = character;
             newForm.ShowDialog();
-
         }
     }
 }

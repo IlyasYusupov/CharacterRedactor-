@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CharacterRedactor_
 {
-    internal class Item
+    public class Item
     {
         public Item(string itemName, string itemClass, int itemLVL, double physicalDef)
         {

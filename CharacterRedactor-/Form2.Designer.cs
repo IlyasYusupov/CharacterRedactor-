@@ -546,6 +546,5 @@
         private ColumnHeader LVL;
         private Label lbItems;
         private Label lbInventory;
-        public string CharacterName;
     }
 }

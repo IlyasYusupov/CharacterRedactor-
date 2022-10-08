@@ -28,18 +28,6 @@ namespace CharacterRedactor
             Character character = null;
             if (paraparameters[0] != "")
             {
-                var client = new MongoClient();
-                var database = client.GetDatabase("CharactersBase");
-                var collection = database.GetCollection<Character>("Character");
-                var list = collection.Find(x => true).ToList();
-                foreach (var item in list)
-                {
-                    if (item.Name == paraparameters[0])
-                    {
-                        MessageBox.Show("Такой ник уже есть!", "warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return null;
-                    }
-                }
                 double[] result = DoubleParse(paraparameters);
                 double[] calcParam = CalcParams(characterClass, result);
                 switch (characterClass)
@@ -59,7 +47,6 @@ namespace CharacterRedactor
                         break;
                 }
                 AddSkills(character);
-                Mongo.AddToDB(character);
             }
             return character;
         }

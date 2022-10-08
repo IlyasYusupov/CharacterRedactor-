@@ -10,7 +10,7 @@ using CharacterRedactor_;
 namespace CharacterRedactor
 {
     [BsonKnownTypes(typeof(Warrior), typeof(Rogue), typeof(Wisard))]
-    internal class Character
+    public class Character
     {
         protected string characterClass;
         protected string name;
