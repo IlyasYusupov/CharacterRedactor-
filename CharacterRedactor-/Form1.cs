@@ -315,6 +315,7 @@ namespace CharacterRedactor_
 
         private void cbExistingCharacters_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             SkillsRefresh();
             character = Mongo.Find(cbExistingCharacter.Text);
             switch (character.CharacterClass)
@@ -454,9 +455,17 @@ namespace CharacterRedactor_
 
         private void btnAddItem_Click(object sender, EventArgs e)
         {
-            Form2 newForm = new Form2();
-            newForm.character = character;
-            newForm.ShowDialog();
+            if (character != null)
+            {
+                Form2 newForm = new Form2();
+                newForm.InventoryFill(character);
+                newForm.ShowDialog();
+            }
+            character = Mongo.Find(cbExistingCharacter.Text);
+            foreach (var item in character.Inventory)
+            {
+                lvInventory.Items.Add(item.ItemName);
+            }
         }
     }
 }

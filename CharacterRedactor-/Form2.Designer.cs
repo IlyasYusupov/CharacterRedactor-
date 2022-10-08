@@ -1,4 +1,6 @@
-﻿namespace CharacterRedactor_
+﻿using CharacterRedactor;
+
+namespace CharacterRedactor_
 {
     partial class Form2
     {
@@ -340,6 +342,7 @@
             this.btnDeletItem = new System.Windows.Forms.Button();
             this.lbItems = new System.Windows.Forms.Label();
             this.lbInventory = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // lvItems
@@ -483,6 +486,7 @@
             this.lvInventory.TabIndex = 3;
             this.lvInventory.UseCompatibleStateImageBehavior = false;
             this.lvInventory.View = System.Windows.Forms.View.List;
+            this.lvInventory.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvInventory_ItemSelectionChanged);
             // 
             // btnDeletItem
             // 
@@ -492,7 +496,6 @@
             this.btnDeletItem.TabIndex = 4;
             this.btnDeletItem.Text = "Delet item";
             this.btnDeletItem.UseVisualStyleBackColor = true;
-            this.btnDeletItem.Click += new System.EventHandler(this.btnDeletItem_Click);
             // 
             // lbItems
             // 
@@ -512,11 +515,22 @@
             this.lbInventory.TabIndex = 6;
             this.lbInventory.Text = "Inventory:";
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(995, 257);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 7;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1104, 298);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lbInventory);
             this.Controls.Add(this.lbItems);
             this.Controls.Add(this.btnDeletItem);
@@ -546,5 +560,6 @@
         private ColumnHeader LVL;
         private Label lbItems;
         private Label lbInventory;
+        private Button btnSave;
     }
 }

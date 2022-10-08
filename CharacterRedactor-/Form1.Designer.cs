@@ -1,4 +1,6 @@
-﻿namespace CharacterRedactor_
+﻿using CharacterRedactor;
+
+namespace CharacterRedactor_
 {
     partial class Form1
     {
