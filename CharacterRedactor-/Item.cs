@@ -16,6 +16,20 @@ namespace CharacterRedactor_
             ItemLVL = itemLVL;
             PhysicalDef = physicalDef;
         }
+        public Item(string itemName, string itemClass, double damage, int itemLVL)
+        {
+            ItemName = itemName;
+            ItemClass = itemClass;
+            ItemLVL = itemLVL;
+            Damage = damage;
+        }
+        public Item(string itemName, double magicalDamage, string itemClass, int itemLVL)
+        {
+            ItemName = itemName;
+            ItemClass = itemClass;
+            ItemLVL = itemLVL;
+            MagicalDamage = magicalDamage;
+        }
 
         [BsonIgnoreIfNull]
         public string ItemName { get; set; }
@@ -29,10 +43,10 @@ namespace CharacterRedactor_
         public double PhysicalDef { get; set; }
 
         [BsonIgnoreIfDefault]
-        public double ItemDamage { get; set; }
+        public double Damage { get; set; }
 
         [BsonIgnoreIfDefault]
-        public double ItemMagDamage { get; set; }
+        public double MagicalDamage { get; set; }
 
     }
 }

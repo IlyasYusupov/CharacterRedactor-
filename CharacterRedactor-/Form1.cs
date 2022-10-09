@@ -262,6 +262,7 @@ namespace CharacterRedactor_
             }
             TextboxClear();
             SkillsRefresh();
+            cbCharacter.SelectedItem = null;
         }
 
         private string[] ColectingParams()
@@ -315,8 +316,8 @@ namespace CharacterRedactor_
 
         private void cbExistingCharacters_SelectedIndexChanged(object sender, EventArgs e)
         {
-
             SkillsRefresh();
+            lvEquipment.Items.Clear();
             character = Mongo.Find(cbExistingCharacter.Text);
             switch (character.CharacterClass)
             {
@@ -331,10 +332,21 @@ namespace CharacterRedactor_
                     break;
             }
             TextboxFill(character);
-            foreach(var i in character.Skills)
+            foreach(var skill in character.Skills)
             {
-                maker.skills.Add(i);
-                SkillsFill(i.SkillName);
+                maker.skills.Add(skill);
+                SkillsFill(skill.SkillName);
+            }
+            foreach (var item in character.Inventory)
+            {
+                maker.Inventory.Add(item);
+            }
+            foreach (var item in character.Equipment)
+            {
+                maker.Inventory.Add(item);
+                maker.Equipment.Add(item);
+                lvEquipment.Items.Add(item.ItemName);
+                ItemBufs(item);
             }
         }
 
@@ -342,12 +354,17 @@ namespace CharacterRedactor_
         {
             if (cbCharacter.SelectedItem != null && cbExistingCharacter.SelectedItem != null)
             {
+                foreach (var item in character.Equipment)
+                {
+                    ItemBufsDel(item);
+                }
                 character = maker.Make(cbCharacter.Text, ColectingParams());
                 if(character != null)
                 {
                     Mongo.Replace(cbExistingCharacter.Text, character);
                     Mongo.FindAll(cbExistingCharacter);
                 }
+                lvEquipment.Items.Clear();
                 TextboxClear();
                 SkillsRefresh();
             }
@@ -455,16 +472,113 @@ namespace CharacterRedactor_
 
         private void btnAddItem_Click(object sender, EventArgs e)
         {
-            if (character != null)
+            if (character == null || cbCharacter.SelectedItem == null || tbName.Text == "")
             {
-                Form2 newForm = new Form2();
-                newForm.InventoryFill(character);
-                newForm.ShowDialog();
+                return;
             }
-            character = Mongo.Find(cbExistingCharacter.Text);
+            Form2 newForm = new Form2();
+            foreach (var item in character.Equipment)
+                ItemBufsDel(item);
+            newForm.InventoryFill(character);
+            newForm.ShowDialog();
             foreach (var item in character.Inventory)
             {
-                lvInventory.Items.Add(item.ItemName);
+                maker.Inventory.Add(item);
+            }
+            lvEquipment.Items.Clear();
+            if(character.Equipment.Count == 0)
+                CalcParams();
+            foreach (var item in character.Equipment)
+            {
+                lvEquipment.Items.Add(item.ItemName);
+                ItemBufs(item);
+                maker.Equipment.Add(item);
+            }
+        }
+
+        private void ItemBufs(Item item)
+        {
+            switch(item.ItemClass)
+            {
+                case "Helmet":
+                    if(item == null)
+                    {
+                        CalcParams();
+                        return;
+                    }
+                    tbPhysicalDef.Text = (double.Parse(tbPhysicalDef.Text) + item.PhysicalDef).ToString();
+                    tbHealthPoint.Text = (double.Parse(tbHealthPoint.Text) + Helmet.HelmetBufs[item.ItemLVL][0]).ToString();
+                    tbPhysicalAttake.Text = (double.Parse(tbPhysicalAttake.Text) + Helmet.HelmetBufs[item.ItemLVL][1]).ToString();
+                    break;
+                case "Armor":
+                    if (item == null)
+                    {
+                        CalcParams();
+                        return;
+                    }
+                    tbPhysicalDef.Text = (double.Parse(tbPhysicalDef.Text) + item.PhysicalDef).ToString();
+                    tbHealthPoint.Text = (double.Parse(tbHealthPoint.Text) + Helmet.HelmetBufs[item.ItemLVL][0]).ToString();
+                    tbPhysicalAttake.Text = (double.Parse(tbPhysicalAttake.Text) + Helmet.HelmetBufs[item.ItemLVL][1]).ToString();
+                    break;
+                case "Weapon":
+                    if (item == null)
+                    {
+                        CalcParams();
+                        return;
+                    }
+                    if (item.Damage == 0)
+                    {
+                        tbMagicalAttake.Text = (double.Parse(tbMagicalAttake.Text) + item.MagicalDamage).ToString();
+                        tbManaPool.Text = (double.Parse(tbManaPool.Text) + Weapon.MagWeaponBufs[item.ItemLVL][0]).ToString();
+                        tbStrength.Text = (double.Parse(tbStrength.Text) + Weapon.MagWeaponBufs[item.ItemLVL][1]).ToString();
+                    }    
+                    tbPhysicalAttake.Text = (double.Parse(tbPhysicalAttake.Text) + item.Damage).ToString();
+                    tbStrength.Text = (double.Parse(tbStrength.Text) + Weapon.WeaponBufs[item.ItemLVL][0]).ToString();
+                    tbDexterity.Text = (double.Parse(tbDexterity.Text) + Weapon.WeaponBufs[item.ItemLVL][1]).ToString();
+                    break;
+            }
+        }
+
+        private void ItemBufsDel(Item item)
+        {
+            switch (item.ItemClass)
+            {
+                case "Helmet":
+                    if (item == null)
+                    {
+                        CalcParams();
+                        return;
+                    }
+                    tbPhysicalDef.Text = (double.Parse(tbPhysicalDef.Text) - item.PhysicalDef).ToString();
+                    tbHealthPoint.Text = (double.Parse(tbHealthPoint.Text) + Helmet.HelmetBufs[item.ItemLVL][0]).ToString();
+                    tbPhysicalAttake.Text = (double.Parse(tbPhysicalAttake.Text) + Helmet.HelmetBufs[item.ItemLVL][1]).ToString();
+                    break;
+                case "Armor":
+                    if (item == null)
+                    {
+                        CalcParams();
+                        return;
+                    }
+                    tbPhysicalDef.Text = (double.Parse(tbPhysicalDef.Text) - item.PhysicalDef).ToString();
+                    tbHealthPoint.Text = (double.Parse(tbHealthPoint.Text) - Helmet.HelmetBufs[item.ItemLVL][0]).ToString();
+                    tbPhysicalAttake.Text = (double.Parse(tbPhysicalAttake.Text) + Helmet.HelmetBufs[item.ItemLVL][1]).ToString();
+                    break;
+                case "Weapon":
+                    if (item == null)
+                    {
+                        CalcParams();
+                        return;
+                    }
+                    if (item.Damage == 0)
+                    {
+                        tbMagicalAttake.Text = (double.Parse(tbMagicalAttake.Text) - item.MagicalDamage).ToString();
+                        tbManaPool.Text = (double.Parse(tbManaPool.Text) - Weapon.MagWeaponBufs[item.ItemLVL][0]).ToString();
+                        tbStrength.Text = (double.Parse(tbStrength.Text) + Weapon.MagWeaponBufs[item.ItemLVL][1]).ToString();
+                    }
+                    tbPhysicalAttake.Text = (double.Parse(tbPhysicalAttake.Text) - item.Damage).ToString();
+                    tbStrength.Text = (double.Parse(tbStrength.Text) - Weapon.WeaponBufs[item.ItemLVL][0]).ToString();
+                    tbDexterity.Text = (double.Parse(tbDexterity.Text) - Weapon.WeaponBufs[item.ItemLVL][1]).ToString();
+                    break;
             }
         }
     }

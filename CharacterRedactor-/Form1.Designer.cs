@@ -66,9 +66,9 @@ namespace CharacterRedactor_
             this.lbSkills = new System.Windows.Forms.Label();
             this.panelInventory = new System.Windows.Forms.Panel();
             this.lbParam = new System.Windows.Forms.Label();
-            this.lvInventory = new System.Windows.Forms.ListView();
-            this.lbInventory = new System.Windows.Forms.Label();
-            this.btnAddItem = new System.Windows.Forms.Button();
+            this.lvEquipment = new System.Windows.Forms.ListView();
+            this.lbEquipment = new System.Windows.Forms.Label();
+            this.btnInventory = new System.Windows.Forms.Button();
             this.panelParameters = new System.Windows.Forms.Panel();
             this.cbExistingCharacter = new System.Windows.Forms.ComboBox();
             this.tbPhysicalDef = new System.Windows.Forms.TextBox();
@@ -475,9 +475,9 @@ namespace CharacterRedactor_
             // panelInventory
             // 
             this.panelInventory.Controls.Add(this.lbParam);
-            this.panelInventory.Controls.Add(this.lvInventory);
-            this.panelInventory.Controls.Add(this.lbInventory);
-            this.panelInventory.Controls.Add(this.btnAddItem);
+            this.panelInventory.Controls.Add(this.lvEquipment);
+            this.panelInventory.Controls.Add(this.lbEquipment);
+            this.panelInventory.Controls.Add(this.btnInventory);
             this.panelInventory.Location = new System.Drawing.Point(6, 229);
             this.panelInventory.Name = "panelInventory";
             this.panelInventory.Size = new System.Drawing.Size(274, 230);
@@ -492,33 +492,33 @@ namespace CharacterRedactor_
             this.lbParam.Size = new System.Drawing.Size(0, 15);
             this.lbParam.TabIndex = 38;
             // 
-            // lvInventory
+            // lvEquipment
             // 
-            this.lvInventory.Location = new System.Drawing.Point(13, 30);
-            this.lvInventory.Name = "lvInventory";
-            this.lvInventory.Size = new System.Drawing.Size(119, 167);
-            this.lvInventory.TabIndex = 36;
-            this.lvInventory.UseCompatibleStateImageBehavior = false;
-            this.lvInventory.View = System.Windows.Forms.View.List;
+            this.lvEquipment.Location = new System.Drawing.Point(13, 30);
+            this.lvEquipment.Name = "lvEquipment";
+            this.lvEquipment.Size = new System.Drawing.Size(119, 167);
+            this.lvEquipment.TabIndex = 36;
+            this.lvEquipment.UseCompatibleStateImageBehavior = false;
+            this.lvEquipment.View = System.Windows.Forms.View.List;
             // 
-            // lbInventory
+            // lbEquipment
             // 
-            this.lbInventory.AutoSize = true;
-            this.lbInventory.Location = new System.Drawing.Point(13, 8);
-            this.lbInventory.Name = "lbInventory";
-            this.lbInventory.Size = new System.Drawing.Size(60, 15);
-            this.lbInventory.TabIndex = 35;
-            this.lbInventory.Text = "Inventory:";
+            this.lbEquipment.AutoSize = true;
+            this.lbEquipment.Location = new System.Drawing.Point(13, 8);
+            this.lbEquipment.Name = "lbEquipment";
+            this.lbEquipment.Size = new System.Drawing.Size(68, 15);
+            this.lbEquipment.TabIndex = 35;
+            this.lbEquipment.Text = "Equipment:";
             // 
-            // btnAddItem
+            // btnInventory
             // 
-            this.btnAddItem.Location = new System.Drawing.Point(57, 203);
-            this.btnAddItem.Name = "btnAddItem";
-            this.btnAddItem.Size = new System.Drawing.Size(75, 23);
-            this.btnAddItem.TabIndex = 37;
-            this.btnAddItem.Text = "Add item";
-            this.btnAddItem.UseVisualStyleBackColor = true;
-            this.btnAddItem.Click += new System.EventHandler(this.btnAddItem_Click);
+            this.btnInventory.Location = new System.Drawing.Point(57, 203);
+            this.btnInventory.Name = "btnInventory";
+            this.btnInventory.Size = new System.Drawing.Size(75, 23);
+            this.btnInventory.TabIndex = 37;
+            this.btnInventory.Text = "Inventory";
+            this.btnInventory.UseVisualStyleBackColor = true;
+            this.btnInventory.Click += new System.EventHandler(this.btnAddItem_Click);
             // 
             // panelParameters
             // 
@@ -874,6 +874,7 @@ namespace CharacterRedactor_
             this.Controls.Add(this.panelOthers);
             this.Controls.Add(this.panelSelectClass);
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form1";
             this.panelSelectClass.ResumeLayout(false);
             this.panelSelectClass.PerformLayout();
@@ -920,9 +921,9 @@ namespace CharacterRedactor_
         private Panel panelOthers;
         private Panel panelInventory;
         private Label lbParam;
-        public ListView lvInventory;
-        private Label lbInventory;
-        private Button btnAddItem;
+        public ListView lvEquipment;
+        private Label lbEquipment;
+        private Button btnInventory;
         private Panel panelParameters;
         public ComboBox cbExistingCharacter;
         private TextBox tbPhysicalDef;

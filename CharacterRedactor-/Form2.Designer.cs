@@ -339,10 +339,15 @@ namespace CharacterRedactor_
             this.ItemType = new System.Windows.Forms.ColumnHeader();
             this.LVL = new System.Windows.Forms.ColumnHeader();
             this.lvInventory = new System.Windows.Forms.ListView();
-            this.btnDeletItem = new System.Windows.Forms.Button();
             this.lbItems = new System.Windows.Forms.Label();
             this.lbInventory = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
+            this.cbHelmets = new System.Windows.Forms.ComboBox();
+            this.cbArmors = new System.Windows.Forms.ComboBox();
+            this.cbWeapons = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lvItems
@@ -415,7 +420,7 @@ namespace CharacterRedactor_
             listViewItem27});
             this.lvItems.Location = new System.Drawing.Point(12, 27);
             this.lvItems.Name = "lvItems";
-            this.lvItems.Size = new System.Drawing.Size(874, 253);
+            this.lvItems.Size = new System.Drawing.Size(869, 255);
             this.lvItems.TabIndex = 2;
             this.lvItems.UseCompatibleStateImageBehavior = false;
             this.lvItems.View = System.Windows.Forms.View.Details;
@@ -480,22 +485,13 @@ namespace CharacterRedactor_
             // 
             // lvInventory
             // 
-            this.lvInventory.Location = new System.Drawing.Point(906, 27);
+            this.lvInventory.Location = new System.Drawing.Point(897, 27);
             this.lvInventory.Name = "lvInventory";
             this.lvInventory.Size = new System.Drawing.Size(164, 219);
             this.lvInventory.TabIndex = 3;
             this.lvInventory.UseCompatibleStateImageBehavior = false;
             this.lvInventory.View = System.Windows.Forms.View.List;
             this.lvInventory.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvInventory_ItemSelectionChanged);
-            // 
-            // btnDeletItem
-            // 
-            this.btnDeletItem.Location = new System.Drawing.Point(906, 257);
-            this.btnDeletItem.Name = "btnDeletItem";
-            this.btnDeletItem.Size = new System.Drawing.Size(75, 23);
-            this.btnDeletItem.TabIndex = 4;
-            this.btnDeletItem.Text = "Delet item";
-            this.btnDeletItem.UseVisualStyleBackColor = true;
             // 
             // lbItems
             // 
@@ -509,7 +505,7 @@ namespace CharacterRedactor_
             // lbInventory
             // 
             this.lbInventory.AutoSize = true;
-            this.lbInventory.Location = new System.Drawing.Point(906, 9);
+            this.lbInventory.Location = new System.Drawing.Point(897, 9);
             this.lbInventory.Name = "lbInventory";
             this.lbInventory.Size = new System.Drawing.Size(60, 15);
             this.lbInventory.TabIndex = 6;
@@ -517,7 +513,7 @@ namespace CharacterRedactor_
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(995, 257);
+            this.btnSave.Location = new System.Drawing.Point(1201, 259);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(75, 23);
             this.btnSave.TabIndex = 7;
@@ -525,18 +521,84 @@ namespace CharacterRedactor_
             this.btnSave.UseVisualStyleBackColor = true;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
+            // cbHelmets
+            // 
+            this.cbHelmets.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbHelmets.FormattingEnabled = true;
+            this.cbHelmets.Location = new System.Drawing.Point(1104, 27);
+            this.cbHelmets.Name = "cbHelmets";
+            this.cbHelmets.Size = new System.Drawing.Size(121, 23);
+            this.cbHelmets.TabIndex = 8;
+            this.cbHelmets.Tag = "0";
+            this.cbHelmets.SelectedIndexChanged += new System.EventHandler(this.cb_SelectedIndexChanged);
+            // 
+            // cbArmors
+            // 
+            this.cbArmors.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbArmors.FormattingEnabled = true;
+            this.cbArmors.Location = new System.Drawing.Point(1104, 86);
+            this.cbArmors.Name = "cbArmors";
+            this.cbArmors.Size = new System.Drawing.Size(121, 23);
+            this.cbArmors.TabIndex = 9;
+            this.cbArmors.Tag = "1";
+            this.cbArmors.SelectedIndexChanged += new System.EventHandler(this.cb_SelectedIndexChanged);
+            // 
+            // cbWeapons
+            // 
+            this.cbWeapons.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbWeapons.FormattingEnabled = true;
+            this.cbWeapons.Location = new System.Drawing.Point(1104, 164);
+            this.cbWeapons.Name = "cbWeapons";
+            this.cbWeapons.Size = new System.Drawing.Size(121, 23);
+            this.cbWeapons.TabIndex = 10;
+            this.cbWeapons.Tag = "2";
+            this.cbWeapons.SelectedIndexChanged += new System.EventHandler(this.cb_SelectedIndexChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1104, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(77, 15);
+            this.label1.TabIndex = 11;
+            this.label1.Text = "Equip helmet";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(1104, 68);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(74, 15);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Equip Armor";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(1104, 146);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(84, 15);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Equip Weapon";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1104, 298);
+            this.ClientSize = new System.Drawing.Size(1299, 294);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.cbWeapons);
+            this.Controls.Add(this.cbArmors);
+            this.Controls.Add(this.cbHelmets);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.lbInventory);
             this.Controls.Add(this.lbItems);
-            this.Controls.Add(this.btnDeletItem);
             this.Controls.Add(this.lvInventory);
             this.Controls.Add(this.lvItems);
             this.Name = "Form2";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Form2";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -556,10 +618,15 @@ namespace CharacterRedactor_
         private ColumnHeader PhysicalDef;
         private ColumnHeader ItemType;
         private ListView lvInventory;
-        private Button btnDeletItem;
         private ColumnHeader LVL;
         private Label lbItems;
         private Label lbInventory;
         private Button btnSave;
+        private ComboBox cbHelmets;
+        private ComboBox cbArmors;
+        private ComboBox cbWeapons;
+        private Label label1;
+        private Label label2;
+        private Label label3;
     }
 }

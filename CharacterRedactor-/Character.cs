@@ -48,11 +48,17 @@ namespace CharacterRedactor
             this.starPoints = starPoints;
             Inventory = new List<Item>();
             Skills = new List<CharacterSkills>();
+            Equipment = new List<Item>();
         }
 
         public void AddItem(Item item)
         {
             Inventory.Add(item);
+        }
+
+        public void AddEquipment(Item item)
+        {
+            Equipment.Add(item);
         }
 
         public void AddSkill(CharacterSkills skill)
@@ -64,6 +70,8 @@ namespace CharacterRedactor
         [BsonIgnoreIfDefault]
         ObjectId _id;
 
+
+        public List<Item> Equipment { get; set; }
 
         public List<Item> Inventory { get; set; }
 

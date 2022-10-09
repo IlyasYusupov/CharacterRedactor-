@@ -14,12 +14,6 @@ namespace CharacterRedactor_
 {
     internal class ItemMaker
     {
-
-        public ItemMaker()
-        {
-
-        }
-
         public Item Make(string[] itemParams)
         {
             Item item = null;
@@ -28,16 +22,12 @@ namespace CharacterRedactor_
                 case "Helmet":
                     item = new Helmet(itemParams[0], itemParams[1], int.Parse(itemParams[2]), double.Parse(itemParams[3]));
                     break;
+                    item = new Armor(itemParams[0], itemParams[1], int.Parse(itemParams[2]), double.Parse(itemParams[3]));
+                    break;
+                    item = new Weapon(itemParams[0], itemParams[1], double.Parse(itemParams[3]),int.Parse(itemParams[2]));
+                    break;
             }
             return item;
         }
-
-        [BsonIgnoreIfDefault]
-        public static Dictionary<int, double[]> HelmetBufs = new Dictionary<int, double[]>()
-        {
-            {1, new double[] {10 ,0, 0}},
-            {2,  new double[] {15, 10, 0}},
-            {3, new double[] {20, 20, 10}},
-        };
     }
 }

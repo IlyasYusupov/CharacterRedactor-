@@ -16,6 +16,7 @@ namespace CharacterRedactor
     {
         public List<CharacterSkills> skills = new List<CharacterSkills>();
         public List<Item> Inventory = new List<Item>();
+        public List<Item> Equipment = new List<Item>();
 
         public CharacterMaker()
         {
@@ -46,9 +47,23 @@ namespace CharacterRedactor
                                                 calcParam[3], calcParam[4], int.Parse(paraparameters[10]), result[4], int.Parse(paraparameters[12]), int.Parse(paraparameters[13]));
                         break;
                 }
+                AddItems(character);
+                AddEquipment(character);
                 AddSkills(character);
             }
             return character;
+        }
+
+        public void AddItems(Character character)
+        {
+            foreach (var item in Inventory)
+                character.Inventory.Add(item);
+        }
+
+        public void AddEquipment(Character character)
+        {
+            foreach (var item in Equipment)
+                character.Equipment.Add(item);
         }
 
         public void AddSkills(Character character)

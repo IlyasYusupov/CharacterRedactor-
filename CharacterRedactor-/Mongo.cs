@@ -28,6 +28,7 @@ namespace CharacterCreator
             var database = client.GetDatabase("CharactersBase");
             var collection = database.GetCollection<Character>("Character");
             var list = collection.Find(x => true).ToList();
+            box.Items.Clear();
             foreach (var item in list)
             {
                 box.Items.Add($"{item.Name}");
@@ -50,12 +51,12 @@ namespace CharacterCreator
             collection.ReplaceOne(z => z.Name == name, character);
         }
 
-        public static void UpgradeOne(string name, Character character)
+        public static void UpgradeOne(string name, string seting ,Character character)
         {
             var client = new MongoClient();
             var database = client.GetDatabase("CharactersBase");
             var collection = database.GetCollection<Character>("Character");
-            var update = Builders<Character>.Update.Set("Inventory", character.Inventory);
+            var update = Builders<Character>.Update.Set(seting, character.Inventory);
             collection.UpdateOne(x => x.Name == name, update);
         }
     }
