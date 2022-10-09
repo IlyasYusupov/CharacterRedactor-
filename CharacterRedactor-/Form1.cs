@@ -1,4 +1,3 @@
-using CharacterCreator;
 using CharacterRedactor;
 using MongoDB.Driver;
 using System.Windows.Forms;
@@ -10,7 +9,7 @@ namespace CharacterRedactor_
 {
     public partial class Form1 : Form
     {
-        CharacterMaker maker = new CharacterMaker();
+        public CharacterMaker maker = new CharacterMaker();
         Character character;
         double[] param = new double[9];
         int skillGive;
@@ -343,7 +342,6 @@ namespace CharacterRedactor_
             }
             foreach (var item in character.Equipment)
             {
-                maker.Inventory.Add(item);
                 maker.Equipment.Add(item);
                 lvEquipment.Items.Add(item.ItemName);
                 ItemBufs(item);
@@ -359,11 +357,13 @@ namespace CharacterRedactor_
                     ItemBufsDel(item);
                 }
                 character = maker.Make(cbCharacter.Text, ColectingParams());
-                if(character != null)
+                maker.Inventory.Clear();
+                maker.Equipment.Clear();
+                if (character != null)
                 {
                     Mongo.Replace(cbExistingCharacter.Text, character);
                     Mongo.FindAll(cbExistingCharacter);
-                }
+                }   
                 lvEquipment.Items.Clear();
                 TextboxClear();
                 SkillsRefresh();
@@ -476,23 +476,25 @@ namespace CharacterRedactor_
             {
                 return;
             }
+
             Form2 newForm = new Form2();
+            newForm.Maker = maker;
+            newForm.InventoryFill(character);
             foreach (var item in character.Equipment)
                 ItemBufsDel(item);
-            newForm.InventoryFill(character);
             newForm.ShowDialog();
-            foreach (var item in character.Inventory)
-            {
-                maker.Inventory.Add(item);
-            }
+            //foreach (var item in character.Inventory)
+            //{
+            //    maker.Inventory.Add(item);
+            //}
             lvEquipment.Items.Clear();
             if(character.Equipment.Count == 0)
                 CalcParams();
-            foreach (var item in character.Equipment)
+            foreach (var item in maker.Equipment)
             {
                 lvEquipment.Items.Add(item.ItemName);
                 ItemBufs(item);
-                maker.Equipment.Add(item);
+            //    maker.Equipment.Add(item);
             }
         }
 

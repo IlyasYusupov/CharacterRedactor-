@@ -5,14 +5,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CharacterCreator;
 using MongoDB.Driver;
 using System.Xml.Linq;
 using CharacterRedactor_;
 
 namespace CharacterRedactor
 {
-    internal class CharacterMaker
+    public class CharacterMaker
     {
         public List<CharacterSkills> skills = new List<CharacterSkills>();
         public List<Item> Inventory = new List<Item>();

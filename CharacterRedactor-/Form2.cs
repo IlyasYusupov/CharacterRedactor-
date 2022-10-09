@@ -5,17 +5,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CharacterCreator;
 using MongoDB.Driver;
 using System.Xml.Linq;
 using CharacterRedactor;
+using System.Diagnostics.Metrics;
 
 namespace CharacterRedactor_
 {
     public partial class Form2 : Form
     {
-        ItemMaker maker = new ItemMaker();
         Character character;
+        public CharacterMaker Maker;
         List<Item> Inventory = new List<Item>();
         Item[] Equip = new Item[3];
 
@@ -23,12 +23,13 @@ namespace CharacterRedactor_
         {
             InitializeComponent();
             Inventory.Clear();
-            
         }
 
         public void InventoryFill(Character character)
         {
             this.character = character;
+            Inventory.Clear();
+            Equip = new Item[3];
             if (character.Inventory != null)
             {
                 foreach (var item in character.Inventory)
@@ -53,6 +54,8 @@ namespace CharacterRedactor_
                     }
                 }
             }
+            Maker.Equipment.Clear();
+            Maker.Inventory.Clear();
         }
 
         private void lvItems_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -113,18 +116,18 @@ namespace CharacterRedactor_
             character.Inventory.Clear();
             foreach (var item in Inventory)
             {
-                
-                character.AddItem(item);
+                Maker.Inventory.Add(item);
             }
             character.Equipment.Clear();
             foreach (var item in Equip)
             {
                 if(item != null)
-                    character.AddEquipment(item);
-                
+                    Maker.Equipment.Add(item);
             }
-            Mongo.UpgradeOne(character.Name, "Inventory", character);
-            Mongo.UpgradeOne(character.Name, "Equipment", character);
+            Equip = new Item[3];
+            Inventory.Clear();
+            Mongo.UpgradeOne(character.Name, "Inventory", character.Inventory);
+            Mongo.UpgradeOne(character.Name, "Equipment", character.Equipment);
             this.Close();
         }
 

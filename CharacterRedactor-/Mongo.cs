@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using MongoDB.Bson.Serialization;
 
 
-namespace CharacterCreator
+namespace CharacterRedactor_
 {
     internal class Mongo
     {
@@ -51,12 +51,12 @@ namespace CharacterCreator
             collection.ReplaceOne(z => z.Name == name, character);
         }
 
-        public static void UpgradeOne(string name, string seting ,Character character)
+        public static void UpgradeOne(string name, string seting , List<Item> items)
         {
             var client = new MongoClient();
             var database = client.GetDatabase("CharactersBase");
             var collection = database.GetCollection<Character>("Character");
-            var update = Builders<Character>.Update.Set(seting, character.Inventory);
+            var update = Builders<Character>.Update.Set(seting, items);
             collection.UpdateOne(x => x.Name == name, update);
         }
     }
