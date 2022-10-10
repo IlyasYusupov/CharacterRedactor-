@@ -54,14 +54,20 @@ namespace CharacterRedactor_
                     }
                 }
             }
-            Maker.Equipment.Clear();
-            Maker.Inventory.Clear();
+            //Maker.Equipment.Clear();
+           // Maker.Inventory.Clear();
         }
 
         private void lvItems_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (e.IsSelected)
             {
+                if (character.Strength < double.Parse(lvItems.Items[e.ItemIndex].SubItems[1].Text) || character.Dexterity < double.Parse(lvItems.Items[e.ItemIndex].SubItems[2].Text) ||
+                    character.Constitution < double.Parse(lvItems.Items[e.ItemIndex].SubItems[3].Text) || character.Intelligence < double.Parse(lvItems.Items[e.ItemIndex].SubItems[4].Text))
+                {
+                    MessageBox.Show("Не дорос!");
+                    return;
+                }
                 string[] parameters = GerParams(e);
                 switch(lvItems.Items[e.ItemIndex].SubItems[8].Text)
                 {
@@ -113,21 +119,19 @@ namespace CharacterRedactor_
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            character.Inventory.Clear();
+            Maker.Inventory.Clear();
             foreach (var item in Inventory)
             {
                 Maker.Inventory.Add(item);
             }
-            character.Equipment.Clear();
+            Maker.Equipment.Clear();
             foreach (var item in Equip)
             {
                 if(item != null)
                     Maker.Equipment.Add(item);
             }
-            Equip = new Item[3];
-            Inventory.Clear();
-            Mongo.UpgradeOne(character.Name, "Inventory", character.Inventory);
-            Mongo.UpgradeOne(character.Name, "Equipment", character.Equipment);
+            Mongo.UpgradeOne(character.Name, "Inventory", Maker.Inventory);
+            Mongo.UpgradeOne(character.Name, "Equipment", Maker.Equipment);
             this.Close();
         }
 

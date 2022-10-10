@@ -483,10 +483,6 @@ namespace CharacterRedactor_
             foreach (var item in character.Equipment)
                 ItemBufsDel(item);
             newForm.ShowDialog();
-            //foreach (var item in character.Inventory)
-            //{
-            //    maker.Inventory.Add(item);
-            //}
             lvEquipment.Items.Clear();
             if(character.Equipment.Count == 0)
                 CalcParams();
@@ -494,7 +490,6 @@ namespace CharacterRedactor_
             {
                 lvEquipment.Items.Add(item.ItemName);
                 ItemBufs(item);
-            //    maker.Equipment.Add(item);
             }
         }
 

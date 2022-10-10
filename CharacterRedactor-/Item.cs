@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CharacterRedactor_
 {
+    [BsonKnownTypes(typeof(Helmet), typeof(Armor), typeof(Weapon))]
     public class Item
     {
         public Item(string itemName, string itemClass, int itemLVL, double physicalDef)
