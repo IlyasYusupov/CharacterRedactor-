@@ -54,8 +54,6 @@ namespace CharacterRedactor_
                     }
                 }
             }
-            //Maker.Equipment.Clear();
-           // Maker.Inventory.Clear();
         }
 
         private void lvItems_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)

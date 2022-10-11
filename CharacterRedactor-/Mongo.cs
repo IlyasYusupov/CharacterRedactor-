@@ -12,7 +12,7 @@ using MongoDB.Bson.Serialization;
 
 namespace CharacterRedactor_
 {
-    internal class Mongo
+    public class Mongo
     {
         public static void AddToDB(Character character)
         {
@@ -34,6 +34,20 @@ namespace CharacterRedactor_
                 box.Items.Add($"{item.Name}");
             }
         }
+
+        public static void FindAll(List<Character> characters)
+        {
+            var client = new MongoClient();
+            var database = client.GetDatabase("CharactersBase");
+            var collection = database.GetCollection<Character>("Character");
+            var list = collection.Find(x => true).ToList();
+            foreach (var character in list)
+            {
+                characters.Add(character);
+            }
+        }
+
+
         public static Character Find(string name)
         {
             var client = new MongoClient();
