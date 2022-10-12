@@ -55,6 +55,7 @@
             this.listView2.TabIndex = 1;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
+            this.listView2.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView2_ItemSelectionChanged);
             this.listView2.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView2_DragDrop);
             this.listView2.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView_DragEnter);
             // 
@@ -75,6 +76,7 @@
             this.btnAuto.TabIndex = 3;
             this.btnAuto.Text = "Auto input";
             this.btnAuto.UseVisualStyleBackColor = true;
+            this.btnAuto.Click += new System.EventHandler(this.btnAuto_Click);
             // 
             // label1
             // 
@@ -97,7 +99,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(296, 47);
+            this.label3.Location = new System.Drawing.Point(294, 47);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(90, 15);
             this.label3.TabIndex = 7;
@@ -108,7 +110,7 @@
             this.lvCharacters.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.CharacterName,
             this.LVL});
-            this.lvCharacters.Location = new System.Drawing.Point(261, 65);
+            this.lvCharacters.Location = new System.Drawing.Point(259, 65);
             this.lvCharacters.Name = "lvCharacters";
             this.lvCharacters.Size = new System.Drawing.Size(165, 224);
             this.lvCharacters.TabIndex = 6;
@@ -139,6 +141,7 @@
             this.listView1.TabIndex = 8;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.listView1_ItemSelectionChanged);
             this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.listView1_DragDrop);
             this.listView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.listView_DragEnter);
             // 

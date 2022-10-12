@@ -69,8 +69,13 @@ namespace CharacterTeams
             string[] str = ((string)e.Data.GetData(DataFormats.Text)).Split(" ");
             ListViewItem list = new ListViewItem((new string[] { str[0], str[1] }));
             character = Mongo.Find(str[0]);
-            if (CheckCharacter(str[0]), character)
+
+            if (CheckCharacter((str[0])))
             {
+                if (!CheckLVL())
+                {
+                    return;
+                }
                 listView1.Items.Add(list);
                 RedTeam.Add(character);
             }
@@ -88,8 +93,12 @@ namespace CharacterTeams
             string[] str = ((string)e.Data.GetData(DataFormats.Text)).Split(" ");
             ListViewItem list = new ListViewItem((new string[] { str[0], str[1]}));
             character = Mongo.Find(str[0]);
-            if (CheckCharacter(str[0]), character)
+            if (CheckCharacter((str[0])))
             {
+                if (!CheckLVL())
+                {
+                    return;
+                }
                 listView2.Items.Add(list);
                 BlueTeam.Add(character);
             }
@@ -110,15 +119,24 @@ namespace CharacterTeams
         int globalLVL;
         public bool CheckLVL()
         {
-
+            if(character.LVL < globalLVL - 2)
+            {
+                MessageBox.Show("Íå äîðîñ!");
+                return false;
+            }
+            else if(character.LVL > globalLVL + 2)
+            {
+                MessageBox.Show("Ïåðåðîñ!");
+                return false;
+            }
             return true;
         }
 
-        private bool CheckCharacter(string name, Character s)
+        private bool CheckCharacter(string name)
         {
             if (RedTeam.Count == 0 && BlueTeam.Count == 0)
             {
-                globalLVL = s.LVL;
+                globalLVL = character.LVL;
                 return true;
             }
             foreach (var i in RedTeam)
@@ -137,30 +155,98 @@ namespace CharacterTeams
             }
             return true;
         }
-        //private bool CheckCharacter(string name)
-        //{
-        //    if (RedTeam.Count == 0 && BlueTeam.Count == 0)
-        //    {
-        //        return true;
-        //    }
-        //    if (Ñycle(RedTeam, name))
-        //        return true;
 
-        //    if (Ñycle(BlueTeam, name))
-        //        return true;
+        private void listView1_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (e.IsSelected)
+            {
+                var a = (ListViewItem)e.Item;
+                foreach (var character in RedTeam)
+                {
+                    if (a.Text == character.Name)
+                    {
+                        RedTeam.Remove(character);
+                        listView1.Items[e.ItemIndex].Remove();
+                        break;
+                    }
+                }
+            }
+        }
+        private void listView2_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
+        {
+            if (e.IsSelected)
+            {
+                var a = (ListViewItem)e.Item;
+                foreach (var character in BlueTeam)
+                {
+                    if (a.Text == character.Name)
+                    {
+                        BlueTeam.Remove(character);
+                        listView1.Items[e.ItemIndex].Remove();
+                        break;
+                    }
+                }
+            }
+        }
 
-        //    return false;
-        //}
-        //private bool Ñycle(List<Character> list, string name)
-        //{
-        //    foreach (var i in list)
-        //    {
-        //        if (name == i.Name)
-        //        {
-        //            return false;
-        //        }
-        //    }
-        //    return true;
-        //}
+        public bool CheckLVLAuto()
+        {
+            if (character.LVL < globalLVL - 2)
+            {
+                return true;
+            }
+            else if (character.LVL > globalLVL + 2)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private void btnAuto_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            listView2.Items.Clear();
+            RedTeam.Clear();
+            BlueTeam.Clear();
+            Random rnd = new Random();
+            int cnt = 1;
+            while(true)
+            {
+                var num = rnd.Next(0, lvCharacters.Items.Count);
+                character = Mongo.Find(lvCharacters.Items[num].SubItems[0].Text);
+                if(cnt == 1)
+                {
+                    if (CheckCharacter(character.Name))
+                    {
+                        if (CheckLVLAuto())
+                        {
+                            continue;
+                        }
+                        ListViewItem list = new ListViewItem(new string[] { character.Name, character.LVL.ToString() });
+                        listView1.Items.Add(list);
+                        RedTeam.Add(character);
+                        cnt *= -1;
+                    }
+                }
+                else if (cnt == -1)
+                {
+                    if (CheckCharacter(character.Name))
+                    {
+                        if (CheckLVLAuto())
+                        {
+                            continue;
+                        }
+                        ListViewItem list = new ListViewItem(new string[] { character.Name, character.LVL.ToString() });
+                        listView2.Items.Add(list);
+                        BlueTeam.Add(character);
+                        cnt *= -1;
+                    }
+                }
+                if(RedTeam.Count == 6 && BlueTeam.Count == 6)
+                {
+                    break;
+                }
+            }
+        }
     }
 }

@@ -331,7 +331,15 @@ namespace CharacterRedactor_
                     break;
             }
             TextboxFill(character);
-            foreach(var skill in character.Skills)
+            pbLVL.Maximum = character.LVL * 1000;
+            int temp = int.Parse(tbXP.Text);
+            for (int i = 0; i < character.LVL; i++)
+            {
+                temp -= i * 1000;
+            }
+
+            pbLVL.Value = temp;
+            foreach (var skill in character.Skills)
             {
                 maker.skills.Add(skill);
                 SkillsFill(skill.SkillName);
@@ -367,6 +375,7 @@ namespace CharacterRedactor_
                 lvEquipment.Items.Clear();
                 TextboxClear();
                 SkillsRefresh();
+                pbLVL.Value = 0;
             }
         }
 
