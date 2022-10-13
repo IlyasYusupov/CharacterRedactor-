@@ -16,7 +16,7 @@ namespace CharacterTeams
         List<Character> BlueTeam = new List<Character>();
         bool moove_character;
         int selected_item;
-
+        int Bord;
         private void btnManual_Click(object sender, EventArgs e)
         {
             Form2 form2 = new Form2();
@@ -31,11 +31,13 @@ namespace CharacterTeams
                 ListViewItem list = new ListViewItem(new string[] { character.Name, (character.LVL).ToString() });
                 lvCharacters.Items.Add(list);
             }
+            Bord = lvCharacters.Items.Count;
         }
 
         private void lvCharacters_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             selected_item = int.Parse(lvCharacters.Items[e.ItemIndex].Text) - 1;
+            ItemIndex = lvCharacters.Items[e.ItemIndex].Index;
         }
 
         private void lvCharacters_MouseDown(object sender, MouseEventArgs e)
@@ -58,7 +60,7 @@ namespace CharacterTeams
             }
             moove_character = false;
         }
-
+        int ItemIndex;
         private void listView1_DragDrop(object sender, DragEventArgs e)
         {
             if (RedTeam.Count == 6)
@@ -69,7 +71,6 @@ namespace CharacterTeams
             string[] str = ((string)e.Data.GetData(DataFormats.Text)).Split(" ");
             ListViewItem list = new ListViewItem((new string[] { str[0], str[1] }));
             character = Mongo.Find(str[0]);
-
             if (CheckCharacter((str[0])))
             {
                 if (!CheckLVL())
@@ -129,6 +130,7 @@ namespace CharacterTeams
                 MessageBox.Show("Перерос!");
                 return false;
             }
+            //lvCharacters.Items.RemoveAt(ItemIndex);
             return true;
         }
 
@@ -167,6 +169,7 @@ namespace CharacterTeams
                     {
                         RedTeam.Remove(character);
                         listView1.Items[e.ItemIndex].Remove();
+                        lvCharacters.Items.Add(a);
                         break;
                     }
                 }
@@ -183,6 +186,7 @@ namespace CharacterTeams
                     {
                         BlueTeam.Remove(character);
                         listView1.Items[e.ItemIndex].Remove();
+                        lvCharacters.Items.Add(a);
                         break;
                     }
                 }
@@ -210,16 +214,17 @@ namespace CharacterTeams
             BlueTeam.Clear();
             Random rnd = new Random();
             int cnt = 1;
-            while(true)
+            for (int i = 0; i < lvCharacters.Items.Count; i++)
             {
                 var num = rnd.Next(0, lvCharacters.Items.Count);
                 character = Mongo.Find(lvCharacters.Items[num].SubItems[0].Text);
-                if(cnt == 1)
+                if (cnt == 1)
                 {
                     if (CheckCharacter(character.Name))
                     {
                         if (CheckLVLAuto())
                         {
+                            i--;
                             continue;
                         }
                         ListViewItem list = new ListViewItem(new string[] { character.Name, character.LVL.ToString() });
@@ -227,6 +232,8 @@ namespace CharacterTeams
                         RedTeam.Add(character);
                         cnt *= -1;
                     }
+                    else
+                        i--;
                 }
                 else if (cnt == -1)
                 {
@@ -234,6 +241,7 @@ namespace CharacterTeams
                     {
                         if (CheckLVLAuto())
                         {
+                            i--;
                             continue;
                         }
                         ListViewItem list = new ListViewItem(new string[] { character.Name, character.LVL.ToString() });
@@ -241,11 +249,14 @@ namespace CharacterTeams
                         BlueTeam.Add(character);
                         cnt *= -1;
                     }
+                    else
+                        i--;
                 }
                 if(RedTeam.Count == 6 && BlueTeam.Count == 6)
                 {
                     break;
                 }
+
             }
         }
     }
